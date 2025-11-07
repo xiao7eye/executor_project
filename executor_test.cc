@@ -1,44 +1,35 @@
 #include "executor.h"
+#include "pose_test_utils.h" // [新] 包含共享的辅助函数
 #include "gtest/gtest.h"
 
 using adas::Executor;
 using adas::Pose;
 
-namespace adas
-{
+// [已删除] 旧的 PrintTo 和 operator== 函数已从此文件移除
+// 它们现在位于 pose_test_utils.cc 中
 
-    // 辅助函数1：如何打印 Pose
-    void PrintTo(const Pose &pose, std::ostream *os)
-    {
-        *os << "{ x: " << pose.x
-            << ", y: " << pose.y
-            << ", heading: '" << pose.heading << "' }";
-    }
+// ----------------------------------------------
+// 测试套件：ExecutorTest
+// (以下17个测试保持不变)
+// ----------------------------------------------
 
-    // 辅助函数2：如何比较两个Pose
-    bool operator==(const Pose &lhs, const Pose &rhs)
-    {
-        return lhs.x == rhs.x && lhs.y == rhs.y && lhs.heading == rhs.heading;
-    }
-
-} 
 TEST(ExecutorTest, should_return_default_pose_when_without_init_and_command)
 {
-    //准备
+    // 准备
     auto exec = Executor::NewExecutor();
-    //执行
-    //断言
+    // 执行
+    // 断言
     Pose expected = {0, 0, 'N'};
     EXPECT_EQ(exec->Query(), expected);
 }
 
 TEST(ExecutorTest, should_return_init_pose_when_without_command)
 {
-    //准备
+    // 准备
     Pose initPose = {3, 4, 'W'};
     auto exec = Executor::NewExecutor(initPose);
-    //执行
-    //断言
+    // 执行
+    // 断言
     EXPECT_EQ(exec->Query(), initPose);
 }
 
@@ -71,7 +62,7 @@ TEST(ExecutorTest, should_move_to_y_minus_1_when_facing_S_and_command_M)
     EXPECT_EQ(exec->Query(), Pose({0, -1, 'S'}));
 }
 
-//L指令
+// L指令
 TEST(ExecutorTest, should_turn_to_N_when_facing_E_and_command_L)
 {
     auto exec = Executor::NewExecutor({0, 0, 'E'});
@@ -100,7 +91,7 @@ TEST(ExecutorTest, should_turn_to_E_when_facing_S_and_command_L)
     EXPECT_EQ(exec->Query(), Pose({0, 0, 'E'}));
 }
 
-//R指令
+// R指令
 TEST(ExecutorTest, should_turn_to_S_when_facing_E_and_command_R)
 {
     auto exec = Executor::NewExecutor({0, 0, 'E'});
