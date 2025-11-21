@@ -1,5 +1,5 @@
-#include "executor.h"
-#include "pose_test_utils.h" // [新] 包含共享的辅助函数
+#include "Executor.hpp"
+#include "PoseEq.hpp" // [新] 包含共享的辅助函数
 #include "gtest/gtest.h"
 
 using adas::Executor;
